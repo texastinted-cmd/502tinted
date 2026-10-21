@@ -377,6 +377,7 @@ def llms_txt():
         "> 502 Tinted is a window tint and auto detailing shop in Valley Station, Louisville, Kentucky, owned and run by Shane Crosier. "
         "It is a HITEK dealer installing HITEK Ceramic IR and Ceramic Plus window film, plus windshield sun strips and windshield heat film, "
         "tint removal, interior and exterior detailing and paint correction.", "",
+        f"Last updated: {UPDATED}", "",
         "Key facts:",
         f"- Address: {ADDRESS_LINE} (Valley Station, southwest Louisville, near Dixie Highway and the Gene Snyder Freeway)",
         f"- Phone and text: {PHONE}; email {EMAIL}",
