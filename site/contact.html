@@ -53,12 +53,8 @@
 <h3 style="margin-top:28px">Hours</h3><dl class="hours"><div><dt>Monday</dt><dd>9 AM–3 PM</dd></div><div><dt>Tuesday</dt><dd>9 AM–3 PM</dd></div><div><dt>Wednesday</dt><dd>10 AM–5 PM</dd></div><div><dt>Thursday</dt><dd>9 AM–3 PM</dd></div><div><dt>Friday</dt><dd>9 AM–3 PM</dd></div><div><dt>Saturday</dt><dd>8 AM–1 PM</dd></div><div><dt>Sunday</dt><dd>Closed</dd></div></dl>
 <p class="note">Texting is the fastest way to reach Shane during the day. Send your vehicle and what you want done.</p>
 <iframe class="map" title="Map to 502 Tinted, 5410 Valley Station Rd, Louisville" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=5410+Valley+Station+Rd+%23108,+Louisville,+KY+40272&amp;output=embed"></iframe></div><div class="split-b"><h2>Send a quote request</h2><div class="quote-slot" id="quote" data-glassflow-slot>
-<!-- GLASSFLOW: replace this form with the GlassFlow embed or link when it's ready -->
-<form class="qf" action="https://formsubmit.co/502tinted@gmail.com" method="post" data-qf>
-<input type="hidden" name="_subject" value="New quote request from 502tinted.com">
-<input type="hidden" name="_template" value="table">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_next" value="https://www.502tinted.com/thank-you">
+<!-- Sends to /api/quote (worker/index.js), which emails 502tinted@gmail.com. GLASSFLOW: replace this form with the embed when ready -->
+<form class="qf" action="/api/quote" method="post" data-qf>
 <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 <div class="qf-grid">
 <label>Name<input name="name" autocomplete="name" required></label>

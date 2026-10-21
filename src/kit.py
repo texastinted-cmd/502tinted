@@ -9,7 +9,6 @@ OWNER = "Shane Crosier"
 PHONE = "(502) 631-0419"
 PHONE_E164 = "+15026310419"
 EMAIL = "502tinted@gmail.com"
-FORM_ID = EMAIL   # after FormSubmit activation, paste the random alias it emails you here to hide the address
 STREET = "5410 Valley Station Rd #108"
 CITY = "Louisville"
 REGION = "KY"
@@ -415,12 +414,8 @@ def quote_form(preset=""):
     opt = lambda vals: "".join(f'<option{" selected" if v == preset else ""}>{esc(v)}</option>' for v in vals)
     pk = "".join(f"<option>{esc(n)}</option>" for _, n, _ in DETAIL_MENU)
     return f'''<div class="quote-slot" id="quote" data-glassflow-slot>
-<!-- GLASSFLOW: replace this form with the GlassFlow embed or link when it's ready -->
-<form class="qf" action="https://formsubmit.co/{FORM_ID}" method="post" data-qf>
-<input type="hidden" name="_subject" value="New quote request from 502tinted.com">
-<input type="hidden" name="_template" value="table">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_next" value="{BASE}/thank-you">
+<!-- Sends to /api/quote (worker/index.js), which emails 502tinted@gmail.com. GLASSFLOW: replace this form with the embed when ready -->
+<form class="qf" action="/api/quote" method="post" data-qf>
 <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 <div class="qf-grid">
 <label>Name<input name="name" autocomplete="name" required></label>

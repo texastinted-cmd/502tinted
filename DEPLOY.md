@@ -43,20 +43,19 @@ Build history: Cloudflare dashboard → Workers & Pages → 502tinted → Deploy
    `https://www.502tinted.com${http.request.uri.path}`, status **301**, **Preserve query string** on.
 3. **SSL/TLS** → **Full (strict)**, and turn on **Always Use HTTPS**.
 
-## 4. Turn on the quote form
+## 4. The quote form
 
-The form on `/get-a-quote` and `/contact` is a standard form post to FormSubmit (free, no account), which emails each request to
-**502tinted@gmail.com** as a table and then sends the visitor to `/thank-you`.
+The form on `/get-a-quote` and `/contact` posts to `/api/quote`. That's the only part of the site that runs code: `worker/index.js`
+emails the request to **502tinted@gmail.com** through Cloudflare Email Routing (sent from quotes@502tinted.com, with Reply-To set to the
+customer's email when they give one), then sends the visitor to `/thank-you`. If sending fails or takes over 15 seconds, the form asks the
+visitor to text (502) 631-0419 instead.
 
-1. After the site is live, send one test request from the form.
-2. That first time, FormSubmit shows its own page asking to confirm the email, and emails 502tinted@gmail.com an **Activate Form** link
-   (check Spam and Promotions too). Shane clicks it once.
-3. Send a second test. It should land on the site's thank-you page, and the request should arrive in Gmail.
-4. Optional: the activation email includes a random alias string. Paste it into `FORM_ID` in `src/kit.py` and rebuild,
-   so the Gmail address isn't in the page source.
+Setup (done October 21, 2026): Email Routing is enabled on 502tinted.com and 502tinted@gmail.com is a verified destination address.
+If the destination ever changes, verify the new address in Email Routing and update `TO` in `worker/index.js` and `destination_address`
+in `wrangler.jsonc`. Errors show in Cloudflare → Workers & Pages → 502tinted → Logs.
 
-**GlassFlow later:** the form sits inside `<div class="quote-slot" data-glassflow-slot>` with a `GLASSFLOW` comment. Replace the `<form>`
-in `quote_form()` in `src/kit.py` with the GlassFlow embed (or point the "Get a quote" buttons at the GlassFlow link), rebuild, upload.
+**GlassFlow later:** the form sits inside `<div class="quote-slot" data-glassflow-slot>`. Replace the `<form>` in `quote_form()` in
+`src/kit.py` with the GlassFlow embed (or point the "Get a quote" buttons at the GlassFlow link), rebuild, push.
 
 ## 5. The day it goes live
 

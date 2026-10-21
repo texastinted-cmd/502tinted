@@ -44,12 +44,8 @@
 </div>
 
 </div></section><main id="main"><section class="band "><div class="wrap"><div class="split split-top"><div class="split-a"><h2>Tell us about your vehicle</h2><div class="quote-slot" id="quote" data-glassflow-slot>
-<!-- GLASSFLOW: replace this form with the GlassFlow embed or link when it's ready -->
-<form class="qf" action="https://formsubmit.co/502tinted@gmail.com" method="post" data-qf>
-<input type="hidden" name="_subject" value="New quote request from 502tinted.com">
-<input type="hidden" name="_template" value="table">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_next" value="https://www.502tinted.com/thank-you">
+<!-- Sends to /api/quote (worker/index.js), which emails 502tinted@gmail.com. GLASSFLOW: replace this form with the embed when ready -->
+<form class="qf" action="/api/quote" method="post" data-qf>
 <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 <div class="qf-grid">
 <label>Name<input name="name" autocomplete="name" required></label>

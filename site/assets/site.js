@@ -87,12 +87,21 @@
     render();
   });
 
-  // Quote form: a normal form post to FormSubmit, which emails Shane and sends the visitor to /thank-you.
-  // Swap for GlassFlow later.
+  // Quote form: posts to /api/quote (the site's Worker emails it to Shane), then goes to /thank-you.
+  // Without scripts the browser posts the form itself and the Worker redirects. Swap for GlassFlow later.
   all('[data-qf]').forEach(function (form) {
-    var q = new URLSearchParams(location.search).get('service');
+    var params = new URLSearchParams(location.search);
+    var q = params.get('service');
     if (q) { var s = form.querySelector('[name="service"]'); Array.prototype.forEach.call(s.options, function (o) { if (o.text.toLowerCase().indexOf(q.toLowerCase()) === 0) s.value = o.text; }); }
     var status = form.querySelector('.qf-status');
+    var btn = form.querySelector('button[type="submit"]');
+    var fallback = function (data) {
+      var sms = 'sms:+15026310419?&body=' + encodeURIComponent('Quote request: ' + (data.name || '') + ', ' + (data.vehicle || '') + ', ' + (data.service || ''));
+      status.className = 'qf-status err';
+      status.innerHTML = 'That didn’t go through. Please text the same details to <a href="' + sms + '">(502) 631-0419</a> and Shane will reply.';
+      btn.disabled = false; btn.textContent = 'Send my quote request';
+    };
+    if (params.get('error') === 'send') fallback({});
     form.addEventListener('submit', function (ev) {
       var honey = form.querySelector('[name="_honey"]');
       if (honey && honey.value) { ev.preventDefault(); return; }
@@ -102,8 +111,22 @@
         status.textContent = 'Preview only: on the live site this request is emailed to 502tinted@gmail.com.';
         return;
       }
-      var btn = form.querySelector('button[type="submit"]');
-      setTimeout(function () { btn.disabled = true; btn.textContent = 'Sending…'; }, 0);
+      if (!window.fetch || !window.FormData) return;           // old browser: let the form post normally
+      ev.preventDefault();
+      var fd = new FormData(form), data = {};
+      fd.forEach(function (v, k) { data[k] = v; });
+      btn.disabled = true; btn.textContent = 'Sending…';
+      status.className = 'qf-status'; status.textContent = '';
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+      fetch(form.getAttribute('action'), { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: ctrl ? ctrl.signal : undefined })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          clearTimeout(timer);
+          if (j && j.ok) { location.href = '/thank-you'; return; }
+          fallback(data);
+        })
+        .catch(function () { clearTimeout(timer); fallback(data); });
     });
   });
 })();

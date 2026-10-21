@@ -289,7 +289,7 @@ def body_html(page, mode):
     else:
         html = re.sub(r"<!--PROD:(.*?)-->", "", html, flags=re.S)
         html = html.replace("data-qf>", 'data-qf data-preview="1">')
-        html = html.replace(f'action="https://formsubmit.co/{FORM_ID}"', 'action="#"')
+        html = html.replace('action="/api/quote"', 'action="#"')
     return html
 
 def analytics_head():

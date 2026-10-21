@@ -1,9 +1,18 @@
 {
-  // 502 Tinted: static site on Cloudflare Workers. Run `npx wrangler deploy` in this folder.
+  // 502 Tinted on Cloudflare Workers. GitHub pushes to main deploy this automatically (Workers Builds).
+  // Static pages come from ./site; only /api/* runs the Worker (the quote form email).
   "name": "502tinted",
+  "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./site",
-    "not_found_handling": "404-page"
-  }
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  // Quote requests are emailed through Cloudflare Email Routing to this verified address.
+  "send_email": [
+    { "name": "QUOTE_EMAIL", "destination_address": "502tinted@gmail.com" }
+  ],
+  "observability": { "enabled": true }
 }
