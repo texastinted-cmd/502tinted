@@ -1,0 +1,9 @@
+{
+  // 502 Tinted: static site on Cloudflare Workers. Run `npx wrangler deploy` in this folder.
+  "name": "502tinted",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./site",
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,43 @@
+"""One-time prep: turn Shane's phone photos and video into web files in assets/work/.
+Writes <name>-1600.webp and <name>-800.webp (EXIF, including any GPS, is dropped), plus the hero reel."""
+import os, subprocess, sys
+from PIL import Image, ImageOps
+
+UP = "/root/.claude/uploads/fba557de-8df6-5e45-b214-36df694bccd5"
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "work")
+SRC = {  # upload id -> web name
+    "e9cc1754": "audi-q5-tint-red-bay",
+    "bad77764": "toyota-tacoma-tint-shop-front",
+    "575dc406": "range-rover-ceramic-tint",
+    "f182f1a7": "windshield-film-install",
+    "b4bb20f4": "kia-sportage-tint-shop-front",
+    "3e0d82c4": "vw-tiguan-tint-hitek-bay",
+    "a1ea32fa": "toyota-rav4-tint-side",
+    "db442ef6": "chevy-suburban-tint-hitek-bay",
+    "1ba29ea5": "toyota-rav4-detailing-sign",
+    "99e79812": "white-suburban-tint-red-bay",
+    "f691d7af": "vw-jetta-tint-gloss",
+    "3f4ea093": "honda-crv-tint-5410-valley-station",
+}
+
+def main():
+    os.makedirs(OUT, exist_ok=True)
+    for uid, name in SRC.items():
+        src = next(os.path.join(UP, f) for f in os.listdir(UP) if f.startswith(uid))
+        im = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
+        for w, q in ((1600, 68), (800, 66)):
+            h = round(im.height * w / im.width)
+            im.resize((w, h), Image.LANCZOS).save(os.path.join(OUT, f"{name}-{w}.webp"), "WEBP", quality=q, method=6)
+    vid = next(os.path.join(UP, f) for f in os.listdir(UP) if f.endswith(".mp4"))
+    reel = os.path.join(OUT, "expedition-reel.mp4")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", vid, "-an", "-vf", "scale=540:-2", "-c:v", "libx264",
+                    "-preset", "slow", "-crf", "29", "-pix_fmt", "yuv420p", "-movflags", "+faststart", reel], check=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", "0.3", "-i", vid, "-frames:v", "1", "-vf", "scale=540:-2",
+                    os.path.join(OUT, "expedition-reel-poster.jpg")], check=True)
+    Image.open(os.path.join(OUT, "expedition-reel-poster.jpg")).save(os.path.join(OUT, "expedition-reel-poster.webp"), "WEBP", quality=66)
+    os.remove(os.path.join(OUT, "expedition-reel-poster.jpg"))
+    for f in sorted(os.listdir(OUT)):
+        print(f"{f:48} {os.path.getsize(os.path.join(OUT, f)) // 1024} KB")
+
+if __name__ == "__main__":
+    main()
