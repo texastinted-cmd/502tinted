@@ -30,12 +30,11 @@ Cloudflare blocks AI crawlers by default on new domains. That stops ChatGPT, Cla
 Prefer a Worker (like Texas Tinted's)? Install Node.js, open a terminal in this folder, run `npx wrangler login`, then `npx wrangler deploy`.
 The included `wrangler.jsonc` deploys the `site` folder and shows the styled 404 page for missing URLs.
 
-## 2b. Deploy from GitHub instead (recommended)
+## 2b. How it deploys now: GitHub → Cloudflare Workers Builds
 
-Connect this repo so every push updates the site:
-Workers & Pages → Create → Pages → **Connect to Git** → pick `texastinted-cmd/502tinted` → Framework preset **None**,
-build command **empty**, build output directory **`site`** → Save and Deploy.
-A project made with "Upload assets" can't be switched to Git, so this is a new project; move the custom domains over to it.
+The Cloudflare Worker **502tinted** is connected to the GitHub repo `texastinted-cmd/502tinted`. Every push to `main` runs
+`npx wrangler deploy`, which reads `wrangler.jsonc` and publishes the `site` folder (missing pages show `404.html`).
+Build history: Cloudflare dashboard → Workers & Pages → 502tinted → Deployments / Builds.
 
 ## 3. Connect the domain
 
@@ -88,8 +87,7 @@ rebuild, and every page, the schema data and `llms.txt` update together.
 
 ## Updating the site
 
-This repo is connected to Cloudflare. Every push to `main` redeploys the site within a minute or two.
-Cloudflare serves the `site` folder as is (no build command).
+This repo is connected to the Cloudflare Worker `502tinted`. Every push to `main` redeploys the site within a minute or two.
 
 To change something: edit the content in `src/` (prices are in `PRICES` in `src/kit.py`), run `python3 src/build.py` to regenerate `site/`,
 then commit and push. Or ask Claude to make the change.
