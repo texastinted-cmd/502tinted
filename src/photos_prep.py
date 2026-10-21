@@ -18,16 +18,26 @@ SRC = {  # upload id -> web name
     "99e79812": "white-suburban-tint-red-bay",
     "f691d7af": "vw-jetta-tint-gloss",
     "3f4ea093": "honda-crv-tint-5410-valley-station",
+    "e0c8b984": "chevy-silverado-windshield-film",
+    "308fbf59": "shane-crosier-502-tinted",
 }
+
+def prep(uid, name):
+    src = next(os.path.join(UP, f) for f in os.listdir(UP) if f.startswith(uid))
+    im = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
+    for w, q in ((1600, 68), (800, 66)):
+        tw = min(w, im.width)                      # never upscale small photos
+        h = round(im.height * tw / im.width)
+        im.resize((tw, h), Image.LANCZOS).save(os.path.join(OUT, f"{name}-{w}.webp"), "WEBP", quality=q, method=6)
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    only = set(sys.argv[1:])                       # pass web names to prep just those photos
     for uid, name in SRC.items():
-        src = next(os.path.join(UP, f) for f in os.listdir(UP) if f.startswith(uid))
-        im = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
-        for w, q in ((1600, 68), (800, 66)):
-            h = round(im.height * w / im.width)
-            im.resize((w, h), Image.LANCZOS).save(os.path.join(OUT, f"{name}-{w}.webp"), "WEBP", quality=q, method=6)
+        if not only or name in only:
+            prep(uid, name)
+    if only:
+        return
     vid = next(os.path.join(UP, f) for f in os.listdir(UP) if f.endswith(".mp4"))
     reel = os.path.join(OUT, "expedition-reel.mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", vid, "-an", "-vf", "scale=540:-2", "-c:v", "libx264",

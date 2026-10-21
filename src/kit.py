@@ -197,9 +197,11 @@ IMG = {  # name: (alt text, object-position, short caption)
     "white-suburban-tint-red-bay": ("White Chevrolet Suburban with tinted rear glass in the red 502 Tinted bay", "45% 50%", "Chevy Suburban"),
     "vw-jetta-tint-gloss": ("Glossy black Volkswagen Jetta with window tint in the 502 Tinted shop", "50% 48%", "VW Jetta"),
     "honda-crv-tint-5410-valley-station": ("Silver Honda CR-V with window tint outside 502 Tinted, 5410 Valley Station Rd, Louisville", "45% 55%", "Honda CR-V"),
+    "chevy-silverado-windshield-film": ("Black Chevy Silverado High Country with windshield film and tinted windows in the 502 Tinted bay", "50% 50%", "Chevy Silverado"),
+    "shane-crosier-502-tinted": ("Shane Crosier, owner of 502 Tinted, heat-shrinking window film in the shop", "50% 35%", "Shane Crosier"),
 }
 GALLERY = ["toyota-tacoma-tint-shop-front", "range-rover-ceramic-tint", "audi-q5-tint-red-bay", "toyota-rav4-tint-side",
-           "vw-tiguan-tint-hitek-bay", "chevy-suburban-tint-hitek-bay", "white-suburban-tint-red-bay", "kia-sportage-tint-shop-front",
+           "vw-tiguan-tint-hitek-bay", "chevy-suburban-tint-hitek-bay", "chevy-silverado-windshield-film", "kia-sportage-tint-shop-front",
            "vw-jetta-tint-gloss", "honda-crv-tint-5410-valley-station"]
 
 def srcset(name):
@@ -216,7 +218,7 @@ PHOTOS = {  # slot: (what to shoot, ratio, alt, image name or None)
     "tint-hero":        ("Side profile of a tinted sedan or SUV", "4/3", "", "toyota-rav4-tint-side"),
     "tint-install":     ("Film going on in the bay", "4/3", "", "vw-tiguan-tint-hitek-bay"),
     "ceramic-compare":  ("Ceramic tint on an SUV", "4/3", "", "chevy-suburban-tint-hitek-bay"),
-    "windshield":       ("Windshield with a sun strip, shot from the front", "3/2", "Windshield sun strip installed to the AS-1 line", None),
+    "windshield":       ("Full windshield film", "4/3", "", "chevy-silverado-windshield-film"),
     "removal":          ("Old purple or bubbling tint mid-removal", "3/2", "Removing old bubbled window tint", None),
     "hitek-rolls":      ("HITEK in the shop", "4/3", "", "chevy-suburban-tint-hitek-bay"),
     "detail-hero":      ("Foam wash on a car in the bay", "3/2", "Foam pre-wash during an auto detail in Louisville", None),
@@ -226,7 +228,7 @@ PHOTOS = {  # slot: (what to shoot, ratio, alt, image name or None)
     "exterior":         ("Clay bar or iron remover bleeding purple on paint", "3/2", "Iron decontamination during an exterior detail", None),
     "correction-5050":  ("50/50 shot: half swirled, half corrected, under a light", "3/2", "Paint correction 50/50 under an inspection light", None),
     "correction-after": ("Gloss after polishing", "4/3", "", "audi-q5-tint-red-bay"),
-    "about-shane":      ("Shane at the shop (natural, not posed)", "4/5", "Shane Crosier, owner of 502 Tinted", None),
+    "about-shane":      ("Shane at the shop", "1/1", "", "shane-crosier-502-tinted"),
     "about-shop":       ("Inside the bay", "4/3", "", "chevy-suburban-tint-hitek-bay"),
 }
 

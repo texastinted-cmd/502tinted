@@ -6,7 +6,6 @@ Shoot landscape for 3:2 and 4:3, square for 1:1, portrait for 4:5. At least 1600
 
 | Slot | What to shoot | Shape | Used on |
 | --- | --- | --- | --- |
-| `windshield` | Windshield with a sun strip, shot from the front | 3:2 landscape | /windshield-tint-louisville |
 | `removal` | Old purple or bubbling tint mid-removal | 3:2 landscape | /tint-removal-louisville |
 | `detail-hero` | Foam wash on a car in the bay | 3:2 landscape | /auto-detailing-louisville |
 | `interior` | Clean front seats and dash after an interior detail | 3:2 landscape | /interior-detailing-louisville |
@@ -14,4 +13,3 @@ Shoot landscape for 3:2 and 4:3, square for 1:1, portrait for 4:5. At least 1600
 | `interior-after` | Same carpet or seat after | 1:1 square | /interior-detailing-louisville |
 | `exterior` | Clay bar or iron remover bleeding purple on paint | 3:2 landscape | /exterior-detailing-louisville |
 | `correction-5050` | 50/50 shot: half swirled, half corrected, under a light | 3:2 landscape | /paint-correction-louisville |
-| `about-shane` | Shane at the shop (natural, not posed) | 4:5 portrait | /about |

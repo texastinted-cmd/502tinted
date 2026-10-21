@@ -191,7 +191,9 @@ def windshield():
             "I-264 and the Outer Loop. We cut around the rearview mirror mount and any lane-camera or rain-sensor housing so nothing "
             "your car relies on is covered.",
             f"A sun strip is {P('tint_strip')}, or add it to a full tint job."),
-            photo("windshield")))
+            price_list([("tint_strip", "Windshield sun strip", "Down to the AS-1 line"),
+                        ("tint_windshield", "Full windshield heat film", "Clear ceramic film on the whole windshield"),
+                        ("tint_ir", "Add the side windows", "Full car, HITEK Ceramic IR")]), "split-top"))
     body += section(split(
         prose("<h2>Full windshield ceramic heat film</h2>",
               "The windshield is the biggest piece of glass in the car, and it faces the sun most of the day. A clear ceramic film on the "
@@ -202,10 +204,7 @@ def windshield():
                      "Less fading and cracking on the dash",
                      "UV protection for your face and arms",
                      "Trimmed around the mirror mount, cameras and rain sensor"])),
-        price_list([("tint_strip", "Windshield sun strip", "Down to the AS-1 line"),
-                    ("tint_windshield", "Full windshield heat film", "Clear ceramic film on the whole windshield"),
-                    ("tint_ir", "Add the side windows", "Full car, HITEK Ceramic IR")]),
-        "split-top"), "band-raised")
+        photo("windshield")), "band-raised")
     body += section(
         '<h2>How a windshield install works</h2>'
         + steps([

@@ -58,7 +58,7 @@ def home():
 ], "rows-3")}'''
 
     owner = split(
-        photo("about-shop"),
+        photo("about-shane"),
         f'''<h2>Owned and run by Shane Crosier</h2>
 {answer(f"502 Tinted is a window tint and auto detailing shop at {ADDRESS_LINE}, in Valley Station near Dixie Highway. "
         f"Shane Crosier and his team install HITEK Ceramic IR and Ceramic Plus window film (car tint from {P('tint_ir')}), "
