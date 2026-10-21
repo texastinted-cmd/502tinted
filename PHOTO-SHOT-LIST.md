@@ -10,7 +10,7 @@ Shoot landscape for 3:2 and 4:3, square for 1:1, portrait for 4:5. At least 1600
 | `removal` | Old purple or bubbling tint mid-removal | 3:2 landscape | AI example | /tint-removal-louisville |
 | `detail-hero` | Foam wash on a car in the bay | 3:2 landscape | AI example | /auto-detailing-louisville |
 | `interior` | Clean front seats and dash after an interior detail | 3:2 landscape | AI example | /interior-detailing-louisville |
-| `interior-before` | Dirty carpet or seat before (pair with the after) | 1:1 square | Hidden | /interior-detailing-louisville |
-| `interior-after` | Same carpet or seat after | 1:1 square | Hidden | /interior-detailing-louisville |
+| `interior-before` | Dirty seats and carpet before (pair with the after) | 3:4 portrait | AI example | /interior-detailing-louisville |
+| `interior-after` | Same seats and carpet after, same angle | 3:4 portrait | AI example | /interior-detailing-louisville |
 | `exterior` | Clay bar or iron remover bleeding purple on paint | 3:2 landscape | AI example | /exterior-detailing-louisville |
 | `correction-5050` | 50/50 shot: half swirled, half corrected, under a light | 3:2 landscape | AI example | /paint-correction-louisville |

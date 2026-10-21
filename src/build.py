@@ -425,7 +425,7 @@ def shot_list(uses):
         if name and name not in STANDIN:
             continue
         pages = ", ".join(sorted(uses.get(slot, []))) or "(not placed yet)"
-        shape = {"3/2": "3:2 landscape", "4/3": "4:3 landscape", "1/1": "1:1 square", "4/5": "4:5 portrait"}[ratio]
+        shape = {"3/2": "3:2 landscape", "4/3": "4:3 landscape", "1/1": "1:1 square", "4/5": "4:5 portrait", "3/4": "3:4 portrait"}[ratio]
         lines.append(f"| `{slot}` | {desc} | {shape} | {'AI example' if name else 'Hidden'} | {pages} |")
     return "\n".join(lines) + "\n"
 

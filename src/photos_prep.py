@@ -27,10 +27,16 @@ SRC = {  # upload id -> web name
     "88b413cc": "iron-remover-example",
     "d0882d51": "paint-correction-5050-example",
 }
+CROPS = [  # (upload id, web name, crop box): one side-by-side image split into separate photos
+    ("41d96f2b", "interior-before-example", (0, 0, 764, 1024)),
+    ("41d96f2b", "interior-after-example", (772, 0, 1536, 1024)),
+]
 
-def prep(uid, name):
+def prep(uid, name, box=None):
     src = next(os.path.join(UP, f) for f in os.listdir(UP) if f.startswith(uid))
     im = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
+    if box:
+        im = im.crop(box)
     for w, q in ((1600, 68), (800, 66)):
         tw = min(w, im.width)                      # never upscale small photos
         h = round(im.height * tw / im.width)
@@ -42,6 +48,9 @@ def main():
     for uid, name in SRC.items():
         if not only or name in only:
             prep(uid, name)
+    for uid, name, box in CROPS:
+        if not only or name in only:
+            prep(uid, name, box)
     if only:
         return
     vid = next(os.path.join(UP, f) for f in os.listdir(UP) if f.endswith(".mp4"))

@@ -207,9 +207,11 @@ IMG = {  # name: (alt text, object-position, short caption)
     "interior-detail-example": ("Clean black leather front seats, dash and carpet after an interior detail", "50% 50%", "Interior detail"),
     "iron-remover-example": ("Iron remover turning purple as it runs down a car door", "50% 50%", "Iron remover"),
     "paint-correction-5050-example": ("Paint correction 50/50 on a black hood: swirled paint on the left, polished paint on the right", "50% 50%", "Paint correction 50/50"),
+    "interior-before-example": ("Car interior before detailing: dusty dash and seats, dirty cup holders and debris on the carpet", "50% 50%", "Before"),
+    "interior-after-example": ("The same car interior after detailing: clean dash, seats, cup holders and vacuumed carpet", "50% 50%", "After"),
 }
 STANDIN = {"tint-removal-example", "foam-wash-example", "interior-detail-example", "iron-remover-example",
-           "paint-correction-5050-example"}
+           "paint-correction-5050-example", "interior-before-example", "interior-after-example"}
 GALLERY = ["toyota-tacoma-tint-shop-front", "range-rover-ceramic-tint", "audi-q5-tint-red-bay", "toyota-rav4-tint-side",
            "vw-tiguan-tint-hitek-bay", "chevy-suburban-tint-hitek-bay", "chevy-silverado-windshield-film", "kia-sportage-tint-shop-front",
            "vw-jetta-tint-gloss", "honda-crv-tint-5410-valley-station"]
@@ -233,8 +235,8 @@ PHOTOS = {  # slot: (what to shoot, ratio, alt, image name or None)
     "hitek-rolls":      ("HITEK in the shop", "4/3", "", "chevy-suburban-tint-hitek-bay"),
     "detail-hero":      ("Foam wash on a car in the bay", "3/2", "Foam pre-wash during an auto detail in Louisville", "foam-wash-example"),
     "interior":         ("Clean front seats and dash after an interior detail", "3/2", "Interior detail with cleaned seats and dash", "interior-detail-example"),
-    "interior-before":  ("Dirty carpet or seat before (pair with the after)", "1/1", "Car carpet before interior detailing", None),
-    "interior-after":   ("Same carpet or seat after", "1/1", "Car carpet after interior detailing", None),
+    "interior-before":  ("Dirty seats and carpet before (pair with the after)", "3/4", "Car interior before detailing", "interior-before-example"),
+    "interior-after":   ("Same seats and carpet after, same angle", "3/4", "Car interior after detailing", "interior-after-example"),
     "exterior":         ("Clay bar or iron remover bleeding purple on paint", "3/2", "Iron decontamination during an exterior detail", "iron-remover-example"),
     "correction-5050":  ("50/50 shot: half swirled, half corrected, under a light", "3/2", "Paint correction 50/50 under an inspection light", "paint-correction-5050-example"),
     "correction-after": ("Gloss after polishing", "4/3", "", "audi-q5-tint-red-bay"),
