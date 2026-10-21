@@ -137,6 +137,8 @@ def prose(*paras):
     return '<div class="prose">' + "".join(p if p.lstrip().startswith("<") else f"<p>{p}</p>" for p in paras) + "</div>"
 
 def split(left, right, cls=""):
+    if right.startswith("<!--slot:"):              # photo not taken yet: the text runs full width instead
+        return left + right
     return f'<div class="split {cls}"><div class="split-a">{left}</div><div class="split-b">{right}</div></div>'
 
 def ticks(items):
@@ -199,7 +201,15 @@ IMG = {  # name: (alt text, object-position, short caption)
     "honda-crv-tint-5410-valley-station": ("Silver Honda CR-V with window tint outside 502 Tinted, 5410 Valley Station Rd, Louisville", "45% 55%", "Honda CR-V"),
     "chevy-silverado-windshield-film": ("Black Chevy Silverado High Country with windshield film and tinted windows in the 502 Tinted bay", "50% 50%", "Chevy Silverado"),
     "shane-crosier-502-tinted": ("Shane Crosier, owner of 502 Tinted, heat-shrinking window film in the shop", "50% 35%", "Shane Crosier"),
+    # AI-generated example images: described generically (not as 502 Tinted jobs), kept out of the gallery, sitemap and schema.
+    "tint-removal-example": ("Old purple window tint being scraped off a car window", "50% 50%", "Tint removal"),
+    "foam-wash-example": ("Black SUV covered in foam pre-wash in a detailing bay", "50% 50%", "Foam wash"),
+    "interior-detail-example": ("Clean black leather front seats, dash and carpet after an interior detail", "50% 50%", "Interior detail"),
+    "iron-remover-example": ("Iron remover turning purple as it runs down a car door", "50% 50%", "Iron remover"),
+    "paint-correction-5050-example": ("Paint correction 50/50 on a black hood: swirled paint on the left, polished paint on the right", "50% 50%", "Paint correction 50/50"),
 }
+STANDIN = {"tint-removal-example", "foam-wash-example", "interior-detail-example", "iron-remover-example",
+           "paint-correction-5050-example"}
 GALLERY = ["toyota-tacoma-tint-shop-front", "range-rover-ceramic-tint", "audi-q5-tint-red-bay", "toyota-rav4-tint-side",
            "vw-tiguan-tint-hitek-bay", "chevy-suburban-tint-hitek-bay", "chevy-silverado-windshield-film", "kia-sportage-tint-shop-front",
            "vw-jetta-tint-gloss", "honda-crv-tint-5410-valley-station"]
@@ -219,26 +229,32 @@ PHOTOS = {  # slot: (what to shoot, ratio, alt, image name or None)
     "tint-install":     ("Film going on in the bay", "4/3", "", "vw-tiguan-tint-hitek-bay"),
     "ceramic-compare":  ("Ceramic tint on an SUV", "4/3", "", "chevy-suburban-tint-hitek-bay"),
     "windshield":       ("Full windshield film", "4/3", "", "chevy-silverado-windshield-film"),
-    "removal":          ("Old purple or bubbling tint mid-removal", "3/2", "Removing old bubbled window tint", None),
+    "removal":          ("Old purple or bubbling tint mid-removal", "3/2", "Removing old bubbled window tint", "tint-removal-example"),
     "hitek-rolls":      ("HITEK in the shop", "4/3", "", "chevy-suburban-tint-hitek-bay"),
-    "detail-hero":      ("Foam wash on a car in the bay", "3/2", "Foam pre-wash during an auto detail in Louisville", None),
-    "interior":         ("Clean front seats and dash after an interior detail", "3/2", "Interior detail with cleaned seats and dash", None),
+    "detail-hero":      ("Foam wash on a car in the bay", "3/2", "Foam pre-wash during an auto detail in Louisville", "foam-wash-example"),
+    "interior":         ("Clean front seats and dash after an interior detail", "3/2", "Interior detail with cleaned seats and dash", "interior-detail-example"),
     "interior-before":  ("Dirty carpet or seat before (pair with the after)", "1/1", "Car carpet before interior detailing", None),
     "interior-after":   ("Same carpet or seat after", "1/1", "Car carpet after interior detailing", None),
-    "exterior":         ("Clay bar or iron remover bleeding purple on paint", "3/2", "Iron decontamination during an exterior detail", None),
-    "correction-5050":  ("50/50 shot: half swirled, half corrected, under a light", "3/2", "Paint correction 50/50 under an inspection light", None),
+    "exterior":         ("Clay bar or iron remover bleeding purple on paint", "3/2", "Iron decontamination during an exterior detail", "iron-remover-example"),
+    "correction-5050":  ("50/50 shot: half swirled, half corrected, under a light", "3/2", "Paint correction 50/50 under an inspection light", "paint-correction-5050-example"),
     "correction-after": ("Gloss after polishing", "4/3", "", "audi-q5-tint-red-bay"),
     "about-shane":      ("Shane at the shop", "1/1", "", "shane-crosier-502-tinted"),
     "about-shop":       ("Inside the bay", "4/3", "", "chevy-suburban-tint-hitek-bay"),
 }
 
+def has_photo(*slots):
+    return all(PHOTOS[s][3] for s in slots)
+
+def slot_marker(slot):
+    """An empty slot renders nothing on the page; the marker lets the build list it in PHOTO-SHOT-LIST.md."""
+    return f"<!--slot:{slot}-->"
+
 def photo(slot, cls="", sizes="(max-width: 960px) 100vw, 50vw"):
     desc, ratio, alt, name = PHOTOS[slot]
     if name:
-        return f'<figure class="ph has-img {cls}" style="--r:{ratio}">{img(name, sizes)}</figure>'
-    return (f'<figure class="ph {cls}" style="--r:{ratio}" data-slot="{slot}">'
-            f'<span class="ph-mark" aria-hidden="true"></span>'
-            f'<figcaption><span class="ph-k">Photo to come</span>{esc(desc)}</figcaption></figure>')
+        mark = f' data-slot="{slot}"' if name in STANDIN else ""   # AI stand-ins stay on the shot list
+        return f'<figure class="ph has-img {cls}" style="--r:{ratio}"{mark}>{img(name, sizes)}</figure>'
+    return slot_marker(slot)
 
 # ---------------- Google reviews (copied word for word from Shane's Google Business Profile) ----------------
 GOOGLE_REVIEWS = [

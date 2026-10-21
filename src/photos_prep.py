@@ -20,6 +20,12 @@ SRC = {  # upload id -> web name
     "3f4ea093": "honda-crv-tint-5410-valley-station",
     "e0c8b984": "chevy-silverado-windshield-film",
     "308fbf59": "shane-crosier-502-tinted",
+    # AI-generated example images (stand-ins until Shane sends real photos of these steps)
+    "b55b58fb": "tint-removal-example",
+    "3ee897e8": "foam-wash-example",
+    "9bd5eb25": "interior-detail-example",
+    "88b413cc": "iron-remover-example",
+    "d0882d51": "paint-correction-5050-example",
 }
 
 def prep(uid, name):

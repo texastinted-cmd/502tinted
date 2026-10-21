@@ -87,9 +87,12 @@ def interior():
                    "<strong>Hard surfaces.</strong> Dash, console, cup holders, door panels and vents, cleaned and finished without a greasy shine.",
                    "<strong>Glass.</strong> Inside and out, including the top edge of the side windows that hides under the seal."])),
             photo("interior"), "split-top"))
-    body += section(
-        '<div class="band-head"><h2>Before and after</h2><p>A pair of photos from the same car will go here.</p></div>'
-        + f'<div class="pair">{photo("interior-before")}{photo("interior-after")}</div>', "band-raised")
+    if has_photo("interior-before", "interior-after"):
+        body += section(
+            '<div class="band-head"><h2>Before and after</h2><p>The same car, before and after an interior detail.</p></div>'
+            + f'<div class="pair">{photo("interior-before")}{photo("interior-after")}</div>', "band-raised")
+    else:
+        body += slot_marker("interior-before") + slot_marker("interior-after")
     body += section(split(
         prose("<h2>Add-ons for the tough ones</h2>",
               price_list([("pet", "Pet hair removal", "Dog hair woven into carpet takes its own tools and time"),

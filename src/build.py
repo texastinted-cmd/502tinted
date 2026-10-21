@@ -416,16 +416,17 @@ CF_HEADERS = """/*
 
 def shot_list(uses):
     lines = ["# 502 Tinted photo shot list", "",
-             "Shane's 12 shop photos and the Expedition video are on the site now. These spots still need a photo, mostly detailing work.",
+             "These spots need a real photo from Shane, mostly detailing work. \"Hidden\" spots don't show on the site until a photo is added;",
+             "\"AI example\" spots show an AI-generated stand-in for now.",
              "Send them to Claude, or add the file in source/src/kit.py (PHOTOS) and rebuild.",
              "Shoot landscape for 3:2 and 4:3, square for 1:1, portrait for 4:5. At least 1600 px on the long side. Daylight or bright, even shop light; no harsh flash on glass.", "",
-             "| Slot | What to shoot | Shape | Used on |", "| --- | --- | --- | --- |"]
+             "| Slot | What to shoot | Shape | On the site now | Used on |", "| --- | --- | --- | --- | --- |"]
     for slot, (desc, ratio, _, name) in PHOTOS.items():
-        if name:
+        if name and name not in STANDIN:
             continue
         pages = ", ".join(sorted(uses.get(slot, []))) or "(not placed yet)"
         shape = {"3/2": "3:2 landscape", "4/3": "4:3 landscape", "1/1": "1:1 square", "4/5": "4:5 portrait"}[ratio]
-        lines.append(f"| `{slot}` | {desc} | {shape} | {pages} |")
+        lines.append(f"| `{slot}` | {desc} | {shape} | {'AI example' if name else 'Hidden'} | {pages} |")
     return "\n".join(lines) + "\n"
 
 def build():
@@ -437,8 +438,9 @@ def build():
         for p in PAGES:
             html = render(p, mode)
             if mode == "prod":
-                for slot in re.findall(r'data-slot="([a-z0-9-]+)"', html):
+                for slot in re.findall(r'(?:data-slot="|<!--slot:)([a-z0-9]+(?:-[a-z0-9]+)*)', html):
                     uses.setdefault(slot, set()).add("/" if p["slug"] == "index" else "/" + p["slug"])
+            html = re.sub(r"<!--slot:[a-z0-9-]+?-->", "", html)   # empty photo slots leave nothing in the page
             with open(os.path.join(d, p["slug"] + ".html"), "w") as fh:
                 fh.write(html)
         if mode == "prod":
